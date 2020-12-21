@@ -88,3 +88,46 @@ public int majorityElement(int[] nums) {
 }
 ~~~
 
+## 双指针法
+
+指的是在遍历对象的过程中，不是普通的使用单个指针进行访问，而是使用两个相同方向（*快慢指针*）或者相反方向（*对撞指针*）的指针进行扫描，从而达到相应的目的
+
+~~~java
+/**
+ * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
+ * 使得 a + b + c = 0 ？你找出所有满足条件且不重复的三元组。
+ */
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> l = new ArrayList<>();
+    int n = nums.length;
+      
+    for(int first =0;first<n-2;first++){
+        if (first > 0 && nums[first] == nums[first - 1]) {
+            continue;
+        }
+        int target = -nums[first];
+        int third = n - 1;
+        for(int second = first+1;second<n-1;second++){
+            if (second > first+1 && nums[second] == nums[second - 1]) {
+               continue;
+            }
+            while (second < third && nums[second] + nums[third] > target ) {
+               --third;
+            }
+            if(second==third){
+                break;
+            }
+            if(nums[second] + nums[third]==target){
+                List<Integer> a = new ArrayList<>(); 
+                a.add(nums[first]);
+                a.add(nums[second]);
+                a.add(nums[third]);
+                l.add(a);
+            }
+        }
+    }
+    return l;
+}
+~~~
+
